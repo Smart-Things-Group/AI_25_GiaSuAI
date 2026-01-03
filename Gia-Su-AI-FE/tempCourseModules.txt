@@ -1,0 +1,421 @@
+const simulateDelay = (ms = 350) => new Promise((resolve) => setTimeout(resolve, ms))
+const deepClone = (data) => JSON.parse(JSON.stringify(data))
+
+const NIHONGO_CURRICULUM_TEMPLATE = {
+  course_id: 'nihongo-basic-2025',
+  course_title: 'Tieng Nhat so cap - Chuong trinh 4 chuong',
+  total_modules: 4,
+  completed_modules: 0,
+  overall_progress: 18,
+  modules: [
+    {
+      id: 'nihongo-basic-2025-module-01',
+      title: 'Chuong 1: Lam quen voi tieng Nhat & phat am co ban',
+      description:
+        'Tim hieu ve bo ky tu, cach phat am va nhung cau gioi thieu thong dung de lam quen voi tieng Nhat.',
+      order: 1,
+      difficulty: 'Basic',
+      estimated_hours: 3.5,
+      total_lessons: 4,
+      completed_lessons: 2,
+      progress_percent: 55,
+      is_accessible: true,
+      unlock_condition: null,
+      status: 'in_progress',
+      completion_date: null,
+      lessons_outline: [
+        {
+          id: 'nihongo-basic-2025-module-01-lesson-01',
+          title: 'Bai 1: Lam quen voi tieng Nhat',
+          order: 1,
+          status: 'completed',
+          duration_minutes: 15,
+          type: 'video',
+          is_locked: false
+        },
+        {
+          id: 'nihongo-basic-2025-module-01-lesson-02',
+          title: 'Bai 2: 5 quy tac phat am co ban',
+          order: 2,
+          status: 'completed',
+          duration_minutes: 18,
+          type: 'theory',
+          is_locked: false
+        },
+        {
+          id: 'nihongo-basic-2025-module-01-lesson-03',
+          title: 'Bai 3: Tap noi cau xin chao',
+          order: 3,
+          status: 'in_progress',
+          duration_minutes: 20,
+          type: 'practice',
+          is_locked: false
+        },
+        {
+          id: 'nihongo-basic-2025-module-01-lesson-04',
+          title: 'Bai 4: Tu vung chu de gia dinh',
+          order: 4,
+          status: 'not_started',
+          duration_minutes: 22,
+          type: 'reading',
+          is_locked: false
+        }
+      ]
+    },
+    {
+      id: 'nihongo-basic-2025-module-02',
+      title: 'Chuong 2: Bang chu cai Hiragana co ban (a ~ o)',
+      description:
+        'Hoc viet, doc va ghi nho cac cum ky tu Hiragana thong dung kem theo bai tap nho.',
+      order: 2,
+      difficulty: 'Basic',
+      estimated_hours: 4.5,
+      total_lessons: 8,
+      completed_lessons: 1,
+      progress_percent: 12,
+      is_accessible: true,
+      unlock_condition: 'Hoan thanh 50% chuong 1',
+      status: 'not_started',
+      completion_date: null,
+      lessons_outline: [
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-01',
+          title: 'Bai 1: Hang a (a - i - u - e - o)',
+          order: 1,
+          status: 'not_started',
+          duration_minutes: 20,
+          type: 'video',
+          is_locked: false
+        },
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-02',
+          title: 'Bai 2: Hang k (ka - ki - ku - ke - ko)',
+          order: 2,
+          status: 'not_started',
+          duration_minutes: 18,
+          type: 'video',
+          is_locked: false
+        },
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-03',
+          title: 'Bai 3: Hang s (sa - shi - su - se - so)',
+          order: 3,
+          status: 'not_started',
+          duration_minutes: 18,
+          type: 'video',
+          is_locked: false
+        },
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-04',
+          title: 'Bai 4: Hang t (ta - chi - tsu - te - to)',
+          order: 4,
+          status: 'not_started',
+          duration_minutes: 19,
+          type: 'video',
+          is_locked: false
+        },
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-05',
+          title: 'Bai 5: Hang n (na - ni - nu - ne - no)',
+          order: 5,
+          status: 'locked',
+          duration_minutes: 17,
+          type: 'practice',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-06',
+          title: 'Bai 6: Hang h (ha - hi - fu - he - ho)',
+          order: 6,
+          status: 'locked',
+          duration_minutes: 17,
+          type: 'practice',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-07',
+          title: 'Bai 7: Hang m (ma - mi - mu - me - mo)',
+          order: 7,
+          status: 'locked',
+          duration_minutes: 17,
+          type: 'practice',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-02-lesson-08',
+          title: 'Bai 8: Tong on tap bang Hiragana',
+          order: 8,
+          status: 'locked',
+          duration_minutes: 25,
+          type: 'quiz',
+          is_locked: true
+        }
+      ]
+    },
+    {
+      id: 'nihongo-basic-2025-module-03',
+      title: 'Chuong 3: Bang chu cai Katakana co ban (a ~ o)',
+      description:
+        'Chuyen sang katakana de doc duoc cac tu muon, brand va ho ten nuoc ngoai.',
+      order: 3,
+      difficulty: 'Intermediate',
+      estimated_hours: 4,
+      total_lessons: 8,
+      completed_lessons: 0,
+      progress_percent: 0,
+      is_accessible: false,
+      unlock_condition: 'Hoan thanh chuong 2',
+      status: 'not_started',
+      completion_date: null,
+      lessons_outline: [
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-01',
+          title: 'Bai 1: Hang a (ã‚¢ - ã‚¤ - ã‚¦ - ã‚¨ - ã‚ª)',
+          order: 1,
+          status: 'locked',
+          duration_minutes: 18,
+          type: 'video',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-02',
+          title: 'Bai 2: Hang k (ã‚« - ã‚­ - ã‚¯ - ã‚± - ã‚³)',
+          order: 2,
+          status: 'locked',
+          duration_minutes: 18,
+          type: 'video',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-03',
+          title: 'Bai 3: Hang s (ã‚µ - ã‚· - ã‚¹ - ã‚» - ã‚½)',
+          order: 3,
+          status: 'locked',
+          duration_minutes: 18,
+          type: 'video',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-04',
+          title: 'Bai 4: Hang t (ã‚¿ - ãƒ - ãƒ„ - ãƒ† - ãƒˆ)',
+          order: 4,
+          status: 'locked',
+          duration_minutes: 19,
+          type: 'video',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-05',
+          title: 'Bai 5: Chu de ten thuong gap',
+          order: 5,
+          status: 'locked',
+          duration_minutes: 20,
+          type: 'practice',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-06',
+          title: 'Bai 6: Tap doc brand noi tieng',
+          order: 6,
+          status: 'locked',
+          duration_minutes: 20,
+          type: 'reading',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-07',
+          title: 'Bai 7: Tong hop afer quiz',
+          order: 7,
+          status: 'locked',
+          duration_minutes: 25,
+          type: 'quiz',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-03-lesson-08',
+          title: 'Bai 8: Tong on tap bang Katakana',
+          order: 8,
+          status: 'locked',
+          duration_minutes: 25,
+          type: 'quiz',
+          is_locked: true
+        }
+      ]
+    },
+    {
+      id: 'nihongo-basic-2025-module-04',
+      title: 'Chuong 4: Am duc va am tron trong tieng Nhat',
+      description:
+        'Noi ve cac bien the am, am tron va cach ket hop tu co giong giong trong giao tiep.',
+      order: 4,
+      difficulty: 'Intermediate',
+      estimated_hours: 3.2,
+      total_lessons: 6,
+      completed_lessons: 0,
+      progress_percent: 0,
+      is_accessible: false,
+      unlock_condition: 'Hoan thanh chuong 3',
+      status: 'not_started',
+      completion_date: null,
+      lessons_outline: [
+        {
+          id: 'nihongo-basic-2025-module-04-lesson-01',
+          title: 'Bai 1: Khai niem am duc',
+          order: 1,
+          status: 'locked',
+          duration_minutes: 18,
+          type: 'theory',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-04-lesson-02',
+          title: 'Bai 2: Tap doc am tron',
+          order: 2,
+          status: 'locked',
+          duration_minutes: 20,
+          type: 'practice',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-04-lesson-03',
+          title: 'Bai 3: Tu vung dung am nga',
+          order: 3,
+          status: 'locked',
+          duration_minutes: 20,
+          type: 'reading',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-04-lesson-04',
+          title: 'Bai 4: Thuc hanh hoi thoai',
+          order: 4,
+          status: 'locked',
+          duration_minutes: 22,
+          type: 'practice',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-04-lesson-05',
+          title: 'Bai 5: Bai tap tong hop',
+          order: 5,
+          status: 'locked',
+          duration_minutes: 25,
+          type: 'quiz',
+          is_locked: true
+        },
+        {
+          id: 'nihongo-basic-2025-module-04-lesson-06',
+          title: 'Bai 6: Danh gia cuoi khoa',
+          order: 6,
+          status: 'locked',
+          duration_minutes: 30,
+          type: 'quiz',
+          is_locked: true
+        }
+      ]
+    }
+  ]
+}
+
+
+export const courseModulesOverview = {
+  'nihongo-basic-2025': NIHONGO_CURRICULUM_TEMPLATE,
+  
+  
+  'course-006': {
+    course_id: 'course-006',
+    course_title: 'Ti?ng Nh?t Giao Ti?p',
+    total_modules: 1,
+    completed_modules: 0,
+    overall_progress: 0,
+    modules: [
+      {
+        id: 'module-006-01',
+        title: 'Chào h?i và gi?i thi?u b?n thân',
+        description: 'Chào h?i, t?m bi?t, gi?i thi?u ng?n g?n, phép l?ch s?.',
+        order: 1,
+        difficulty: 'Basic',
+        estimated_hours: 1.5,
+        total_lessons: 2,
+        completed_lessons: 0,
+        progress_percent: 0,
+        is_accessible: true,
+        unlock_condition: null,
+        status: 'not_started',
+        completion_date: null,
+        lessons_outline: [
+          { id: 'lesson-006-01', title: 'Chào h?i & t?m bi?t', order: 1, status: 'not_started', duration_minutes: 15, type: 'video', is_locked: false },
+          { id: 'lesson-006-02', title: 'Gi?i thi?u b?n thân', order: 2, status: 'not_started', duration_minutes: 20, type: 'video', is_locked: false }
+        ]
+      }
+    ]
+  }
+'course-007': {
+    course_id: 'course-007',
+    course_title: 'Toán 6 - S? t? nhiên',
+    total_modules: 1,
+    completed_modules: 0,
+    overall_progress: 0,
+    modules: [
+      {
+        id: 'module-007-01',
+        title: 'S? t? nhiên',
+        description: 'T?p h?p s? t? nhiên, phép c?ng/tr?/nhân/chia, u?c b?i, UCLN và BCNN.',
+        order: 1,
+        difficulty: 'Basic',
+        estimated_hours: 5,
+        total_lessons: 4,
+        completed_lessons: 0,
+        progress_percent: 0,
+        is_accessible: true,
+        unlock_condition: null,
+        status: 'not_started',
+        completion_date: null,
+        lessons_outline: [
+          { id: 'lesson-007-01', title: 'T?p h?p s? t? nhiên & tr?c s?', order: 1, status: 'not_started', duration_minutes: 25, type: 'video', is_locked: false },
+          { id: 'lesson-007-02', title: 'C?ng tr? s? t? nhiên', order: 2, status: 'not_started', duration_minutes: 25, type: 'video', is_locked: false },
+          { id: 'lesson-007-03', title: 'Nhân, chia và luy th?a', order: 3, status: 'not_started', duration_minutes: 30, type: 'mixed', is_locked: false },
+          { id: 'lesson-007-04', title: 'U?c, b?i, UCLN & BCNN', order: 4, status: 'not_started', duration_minutes: 30, type: 'quiz', is_locked: false }
+        ]
+      }
+    ]
+  }
+}
+
+
+const buildCourseModulesFallback = (courseId) => {
+  const fallback = deepClone(NIHONGO_CURRICULUM_TEMPLATE)
+  fallback.course_id = courseId || 'course-mock'
+  fallback.modules = fallback.modules.map((module, moduleIndex) => {
+    const moduleOrder = moduleIndex + 1
+    const moduleId = `${fallback.course_id}-module-${String(moduleOrder).padStart(2, '0')}`
+    return {
+      ...module,
+      id: moduleId,
+      lessons_outline: (module.lessons_outline || []).map((lesson, lessonIndex) => ({
+        ...lesson,
+        id: `${moduleId}-lesson-${String(lessonIndex + 1).padStart(2, '0')}`
+      }))
+    }
+  })
+  return fallback
+}
+
+export const mockCourseModulesAPI = {
+  async getCourseModules(courseId = 'course-mock') {
+    await simulateDelay()
+    const overview = courseModulesOverview[courseId]
+
+    if (overview) {
+      return deepClone(overview)
+    }
+
+    return buildCourseModulesFallback(courseId)
+  }
+}
+
+
+
+
+
+

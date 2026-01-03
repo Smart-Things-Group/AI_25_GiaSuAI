@@ -1,0 +1,243 @@
+.course-detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.detail-header .back-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  display: inline-flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.detail-hero {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.detail-thumbnail img {
+  width: 360px;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-hero-content {
+  flex: 1;
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.hero-badges {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.hero-badge {
+  background-color: #eef2ff;
+  color: #312e81;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.hero-badge.enrolled {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.hero-description {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.hero-meta {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  color: var(--text-secondary);
+}
+
+.progress-card {
+  background-color: #f0fdf4;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.progress-track {
+  height: 10px;
+  border-radius: 999px;
+  background-color: #d1fae5;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background-color: #16a34a;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.preview-link {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
+  gap: var(--spacing-xl);
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.tab-list {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.tab-list button {
+  background: var(--bg-secondary);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tab-list button.active {
+  background-color: #111827;
+  color: #fff;
+}
+
+.checklist,
+.bullet-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.checklist li {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+}
+
+.module-section {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-md);
+  overflow: hidden;
+  padding: var(--spacing-sm);
+}
+
+.module-header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.module-header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.module-detail-link {
+  text-decoration: none;
+  font-weight: 600;
+  background-color: var(--bg-secondary);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  color: var(--primary);
+}
+
+.lesson-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.lesson-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  color: var(--text-secondary);
+}
+
+.lesson-list li div {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.info-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 1024px) {
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-hero {
+    flex-direction: column;
+  }
+
+  .detail-thumbnail img {
+    width: 100%;
+  }
+}

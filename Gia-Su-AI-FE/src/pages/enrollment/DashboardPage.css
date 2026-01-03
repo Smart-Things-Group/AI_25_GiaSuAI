@@ -1,0 +1,21 @@
+﻿.dashboard-page {
+  background-color: #f7f9fc;
+  min-height: 100vh;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.page-header p {
+  margin: 8px 0 0;
+  color: #64748b;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}

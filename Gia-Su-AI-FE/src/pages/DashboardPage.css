@@ -1,0 +1,30 @@
+/* Style cho ô tìm kiếm trên dashboard */
+.dashboard-search-input {
+	font-size: 1rem;
+	font-weight: 600;
+	border: 2px solid #1976d2;
+	border-radius: 8px;
+	padding: 6px 12px;
+	margin-bottom: 10px;
+	width: 200px;
+	outline: none;
+	transition: border-color 0.2s;
+}
+/* Card nhỏ gọn cho dashboard */
+/* Hiển thị 4 card nằm ngang, responsive */
+.dashboard-grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 1.5rem;
+	margin-top: 2rem;
+}
+@media (max-width: 1024px) {
+	.dashboard-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media (max-width: 600px) {
+	.dashboard-grid {
+		grid-template-columns: 1fr;
+	}
+}

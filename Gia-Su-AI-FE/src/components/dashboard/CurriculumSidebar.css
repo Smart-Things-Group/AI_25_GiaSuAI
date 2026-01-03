@@ -1,0 +1,233 @@
+.curriculum-panel {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.curriculum-panel.drawer {
+  max-height: calc(100vh - 140px);
+  overflow: hidden;
+}
+
+.curriculum-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.curriculum-panel-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111322;
+}
+
+.curriculum-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.curriculum-panel.drawer .curriculum-panel-body {
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.curriculum-progress-block {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.progress-meta strong {
+  font-size: 1.2rem;
+  color: #111322;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.progress-caption {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.curriculum-modules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.curriculum-module {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  padding: 14px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.module-outline-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.module-outline-title {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  color: #0f172a;
+}
+
+.module-outline-subtitle {
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.module-outline-count {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.module-outline-progress .progress-track {
+  background: #e5e7eb;
+}
+
+.module-outline-progress .progress-fill {
+  background: linear-gradient(90deg, #4ade80, #16a34a);
+}
+
+.module-lesson-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.module-lesson-row {
+  width: 100%;
+  border: none;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.module-lesson-row.active {
+  border-color: #2563eb;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15);
+}
+
+.module-lesson-row.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.module-lesson-row:disabled {
+  cursor: not-allowed;
+}
+
+.lesson-row-left {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.lesson-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid #c7d2fe;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: #fff;
+}
+
+.lesson-check.completed {
+  background: #bbf7d0;
+  border-color: #22c55e;
+  color: #0f172a;
+}
+
+.lesson-check.in_progress {
+  border-color: #fbbf24;
+}
+
+.lesson-row-title {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #111322;
+}
+
+.lesson-row-left small {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+.lesson-duration {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.curriculum-placeholder {
+  padding: 12px 0;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.curriculum-placeholder.error {
+  color: #b91c1c;
+}
+
+@media (max-width: 1024px) {
+  .curriculum-panel.drawer {
+    max-height: none;
+  }
+}

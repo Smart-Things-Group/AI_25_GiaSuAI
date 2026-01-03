@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="vi">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dao Động Điều Hòa</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 100%;
+            min-height: 100%;
+        }
+
+        .app-container {
+            width: 100%;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 40px;
+            font-size: 42px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .simulation-area {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 2px solid #e0e0e0;
+        }
+
+        .spring-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .axis-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            top: 50%;
+            transform: translateY(-1px);
+        }
+
+        .origin-marker {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 3px;
+            height: 30px;
+            background: #ff4444;
+        }
+
+        .origin-label {
+            position: absolute;
+            left: 50%;
+            bottom: -30px;
+            transform: translateX(-50%);
+            font-weight: 600;
+            color: #ff4444;
+        }
+
+        .spring {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: #4CAF50;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.4);
+            transition: transform 0.05s linear;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .position-markers {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 0;
+        }
+
+        .marker {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: #666;
+            top: -10px;
+        }
+
+        .marker-label {
+            position: absolute;
+            top: 25px;
+            font-size: 14px;
+            color: #666;
+            transform: translateX(-50%);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 250px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .control-group {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 15px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            margin: 10px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .value-display {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .info-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .info-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .description {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #2196F3;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .formula {
+            background: #fff9c4;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            text-align: center;
+            margin: 15px 0;
+            border: 2px dashed #fbc02d;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container">
+   <h1 id="main-title">DAO ĐỘNG ĐIỀU HÒA</h1><!-- Phần I -->
+   <div class="section">
+    <h2 class="section-title" id="section-1-title">I. KHÁI NIỆM VÀ ĐẶC ĐIỂM CỦA DAO ĐỘNG</h2>
+    <div class="description"><strong>Mục tiêu:</strong> Minh họa chuyển động qua lại của vật và sự lặp lại trạng thái theo chu kỳ.
+    </div>
+    <div class="simulation-area">
+     <h3 style="text-align: center; color: #667eea; margin-bottom: 25px;">Mô phỏng Dao động Lò xo</h3>
+     <div class="spring-container">
+      <div class="axis-line"></div>
+      <div class="origin-marker"></div>
+      <div class="origin-label">
+       O (VTCB)
+      </div>
+      <div class="position-markers">
+       <div class="marker" style="left: 20%;"></div>
+       <div class="marker-label" style="left: 20%;">
+        -A
+       </div>
+       <div class="marker" style="left: 80%;"></div>
+       <div class="marker-label" style="left: 80%;">
+        +A
+       </div>
+      </div>
+      <div class="spring" id="mass">
+       m
+      </div>
+     </div>
+     <div class="button-group"><button class="btn-primary" id="startBtn">▶ Bắt đầu</button> <button class="btn-secondary" id="pauseBtn">⏸ Tạm dừng</button> <button class="btn-danger" id="resetBtn">↻ Đặt lại</button>
+     </div>
+     <div class="chart-container">
+      <h4 style="text-align: center; color: #333; margin-bottom: 15px;">Đồ thị Li độ - Thời gian (x-t)</h4>
+      <canvas id="chartCanvas"></canvas>
+     </div>
+     <div class="description"><strong>Quan sát:</strong> Vật chuyển động qua lại quanh vị trí cân bằng O. Sau mỗi chu kỳ T, vật trở lại trạng thái ban đầu (cùng vị trí và cùng hướng chuyển động).
+     </div>
+    </div>
+   </div><!-- Phần II -->
+   <div class="section">
+    <h2 class="section-title" id="section-2-title">II. ĐẠI LƯỢNG ĐẶC TRƯNG TRONG DĐĐH</h2>
+    <div class="formula">
+     x = A cos(ωt + φ)
+    </div>
+    <div class="controls">
+     <div class="control-group"><label for="amplitudeSlider">Biên độ A (cm)</label> <input type="range" id="amplitudeSlider" min="20" max="100" value="60" step="5">
+      <div class="value-display" id="amplitudeValue">
+       60 cm
+      </div>
+     </div>
+     <div class="control-group"><label for="omegaSlider">Tần số góc ω (rad/s)</label> <input type="range" id="omegaSlider" min="1" max="10" value="3" step="0.5">
+      <div class="value-display" id="omegaValue">
+       3.0 rad/s
+      </div>
+     </div>
+     <div class="control-group"><label for="phaseSlider">Pha ban đầu φ (rad)</label> <input type="range" id="phaseSlider" min="0" max="6.28" value="0" step="0.1">
+      <div class="value-display" id="phaseValue">
+       0.0 rad
+      </div>
+     </div>
+    </div>
+    <div class="info-panel">
+     <div class="info-card">
+      <div class="info-label">
+       Li độ x (cm)
+      </div>
+      <div class="info-value" id="position">
+       0
+      </div>
+     </div>
+     <div class="info-card">
+      <div class="info-label">
+       Pha (ωt + φ)
+      </div>
+      <div class="info-value" id="phase">
+       0.0
+      </div>
+     </div>
+     <div class="info-card">
+      <div class="info-label">
+       Chu kỳ T (s)
+      </div>
+      <div class="info-value" id="period">
+       2.09
+      </div>
+     </div>
+     <div class="info-card">
+      <div class="info-label">
+       Tần số f (Hz)
+      </div>
+      <div class="info-value" id="frequency">
+       0.48
+      </div>
+     </div>
+    </div>
+    <div class="description"><strong>Ý nghĩa các đại lượng:</strong><br>
+      • <strong>Biên độ A:</strong> Khoảng cách lớn nhất từ VTCB đến biên<br>
+      • <strong>Li độ x:</strong> Vị trí của vật tại thời điểm t so với VTCB<br>
+      • <strong>Tần số góc ω:</strong> Tốc độ dao động (ω càng lớn, dao động càng nhanh)<br>
+      • <strong>Pha ban đầu φ:</strong> Xác định trạng thái ban đầu tại t = 0<br>
+      • <strong>Chu kỳ T:</strong> Thời gian thực hiện một dao động toàn phần (T = 2π/ω)<br>
+      • <strong>Tần số f:</strong> Số dao động trong một giây (f = 1/T = ω/2π)
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            main_title: "DAO ĐỘNG ĐIỀU HÒA",
+            section_1_title: "I. KHÁI NIỆM VÀ ĐẶC ĐIỂM CỦA DAO ĐỘNG",
+            section_2_title: "II. ĐẠI LƯỢNG ĐẶC TRƯNG TRONG DĐĐH",
+            background_color: "#667eea",
+            surface_color: "#ffffff",
+            text_color: "#333333",
+            primary_action_color: "#4CAF50",
+            secondary_action_color: "#667eea",
+            font_family: "Segoe UI",
+            font_size: 16
+        };
+
+        let config = {};
+
+        async function onConfigChange(newConfig) {
+            const baseFontStack = 'Tahoma, Geneva, Verdana, sans-serif';
+            const customFont = newConfig.font_family || defaultConfig.font_family;
+            const baseSize = newConfig.font_size || defaultConfig.font_size;
+            const backgroundColor = newConfig.background_color || defaultConfig.background_color;
+            const surfaceColor = newConfig.surface_color || defaultConfig.surface_color;
+            const textColor = newConfig.text_color || defaultConfig.text_color;
+            const primaryActionColor = newConfig.primary_action_color || defaultConfig.primary_action_color;
+            const secondaryActionColor = newConfig.secondary_action_color || defaultConfig.secondary_action_color;
+
+            document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.body.style.fontSize = `${baseSize}px`;
+            document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${backgroundColor} 100%)`;
+
+            document.getElementById('main-title').textContent = newConfig.main_title || defaultConfig.main_title;
+            document.getElementById('section-1-title').textContent = newConfig.section_1_title || defaultConfig.section_1_title;
+            document.getElementById('section-2-title').textContent = newConfig.section_2_title || defaultConfig.section_2_title;
+
+            document.getElementById('main-title').style.fontSize = `${baseSize * 2.625}px`;
+            document.getElementById('main-title').style.color = surfaceColor;
+
+            const sectionTitles = document.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => {
+                title.style.fontSize = `${baseSize * 1.75}px`;
+                title.style.color = secondaryActionColor;
+                title.style.borderBottomColor = secondaryActionColor;
+            });
+
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.background = surfaceColor;
+            });
+
+            const descriptions = document.querySelectorAll('.description');
+            descriptions.forEach(desc => {
+                desc.style.color = textColor;
+                desc.style.fontSize = `${baseSize}px`;
+            });
+
+            const primaryButtons = document.querySelectorAll('.btn-primary');
+            primaryButtons.forEach(btn => {
+                btn.style.background = primaryActionColor;
+                btn.style.fontSize = `${baseSize}px`;
+            });
+
+            const secondaryButtons = document.querySelectorAll('.btn-secondary');
+            secondaryButtons.forEach(btn => {
+                btn.style.background = secondaryActionColor;
+                btn.style.fontSize = `${baseSize}px`;
+            });
+
+            const labels = document.querySelectorAll('.control-group label');
+            labels.forEach(label => {
+                label.style.color = textColor;
+                label.style.fontSize = `${baseSize * 0.9375}px`;
+            });
+
+            const infoCards = document.querySelectorAll('.info-card');
+            infoCards.forEach(card => {
+                card.style.background = `linear-gradient(135deg, ${secondaryActionColor} 0%, ${secondaryActionColor} 100%)`;
+            });
+        }
+
+        // Animation variables
+        let animationId = null;
+        let isRunning = false;
+        let startTime = 0;
+        let currentTime = 0;
+
+        // Parameters
+        let A = 60;
+        let omega = 3;
+        let phi = 0;
+
+        // Chart setup
+        const canvas = document.getElementById('chartCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 250;
+
+        const dataPoints = [];
+        const maxDataPoints = 200;
+
+        function drawChart() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height / 2);
+            ctx.lineTo(canvas.width, canvas.height / 2);
+            ctx.stroke();
+
+            if (dataPoints.length < 2) return;
+
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+
+            for (let i = 0; i < dataPoints.length; i++) {
+                const x = (i / maxDataPoints) * canvas.width;
+                const y = canvas.height / 2 - (dataPoints[i] / 100) * (canvas.height / 2 - 20);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+
+            ctx.stroke();
+        }
+
+        function updateSimulation() {
+            if (!isRunning) return;
+
+            currentTime = (Date.now() - startTime) / 1000;
+
+            const x = A * Math.cos(omega * currentTime + phi);
+            const phase = (omega * currentTime + phi) % (2 * Math.PI);
+            const T = (2 * Math.PI) / omega;
+            const f = 1 / T;
+
+            const mass = document.getElementById('mass');
+            const containerWidth = mass.parentElement.offsetWidth;
+            const maxDisplacement = containerWidth * 0.3;
+            const pixelPosition = (x / 100) * maxDisplacement;
+            mass.style.transform = `translate(calc(-50% + ${pixelPosition}px), -50%)`;
+
+            document.getElementById('position').textContent = x.toFixed(1);
+            document.getElementById('phase').textContent = phase.toFixed(2);
+            document.getElementById('period').textContent = T.toFixed(2);
+            document.getElementById('frequency').textContent = f.toFixed(2);
+
+            dataPoints.push(x);
+            if (dataPoints.length > maxDataPoints) {
+                dataPoints.shift();
+            }
+
+            drawChart();
+
+            animationId = requestAnimationFrame(updateSimulation);
+        }
+
+        document.getElementById('startBtn').addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                startTime = Date.now() - currentTime * 1000;
+                updateSimulation();
+            }
+        });
+
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            isRunning = false;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            isRunning = false;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            currentTime = 0;
+            startTime = 0;
+            dataPoints.length = 0;
+
+            const mass = document.getElementById('mass');
+            mass.style.transform = 'translate(-50%, -50%)';
+
+            document.getElementById('position').textContent = (A * Math.cos(phi)).toFixed(1);
+            document.getElementById('phase').textContent = phi.toFixed(2);
+
+            drawChart();
+        });
+
+        document.getElementById('amplitudeSlider').addEventListener('input', (e) => {
+            A = parseFloat(e.target.value);
+            document.getElementById('amplitudeValue').textContent = A + ' cm';
+        });
+
+        document.getElementById('omegaSlider').addEventListener('input', (e) => {
+            omega = parseFloat(e.target.value);
+            document.getElementById('omegaValue').textContent = omega.toFixed(1) + ' rad/s';
+            const T = (2 * Math.PI) / omega;
+            const f = 1 / T;
+            document.getElementById('period').textContent = T.toFixed(2);
+            document.getElementById('frequency').textContent = f.toFixed(2);
+        });
+
+        document.getElementById('phaseSlider').addEventListener('input', (e) => {
+            phi = parseFloat(e.target.value);
+            document.getElementById('phaseValue').textContent = phi.toFixed(1) + ' rad';
+            if (!isRunning) {
+                document.getElementById('position').textContent = (A * Math.cos(phi)).toFixed(1);
+                document.getElementById('phase').textContent = phi.toFixed(2);
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = canvas.offsetWidth;
+            drawChart();
+        });
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.surface_color || defaultConfig.surface_color,
+                            set: (value) => {
+                                config.surface_color = value;
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                            set: (value) => {
+                                config.primary_action_color = value;
+                                window.elementSdk.setConfig({ primary_action_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                            set: (value) => {
+                                config.secondary_action_color = value;
+                                window.elementSdk.setConfig({ secondary_action_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["main_title", config.main_title || defaultConfig.main_title],
+                    ["section_1_title", config.section_1_title || defaultConfig.section_1_title],
+                    ["section_2_title", config.section_2_title || defaultConfig.section_2_title]
+                ])
+            });
+            
+            config = window.elementSdk.config;
+        }
+
+        drawChart();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a485ddea49c08c0',t:'MTc2NDE0OTQyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
